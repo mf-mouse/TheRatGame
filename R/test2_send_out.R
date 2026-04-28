@@ -1,13 +1,12 @@
 #Written by : maybe a mouse 🐭?
-#Written on : 10 April 2025
+#Written on : 28 April 2026
 #Purpose : Play the rodent game! Based on the user's argument choices, the function will find out what rodent you are
 #Description: Chose your favourite food, habitat, size (from specified lists below) and if you are/aren't aggressive. 
 #the function will ask if the user wants to proceed (if answer is not "yes" (any spelling, written in console)), the game quits
 #The function will find the rodent species that fits this combination - the rodent you are! 
-#food : one character value from: "seeds" ; "roots" ; "grass" ; "others'_children"
+#food : one character value from: "seeds" ; "roots" ; "grass"
 #habitat: one character value from: "woodland" ; "desert" ; "water"
 #size: one character value from: "small" ; "medium" ; "large"
-#aggression: one character value from: "yes" ; "no"
 #Value : Outputs a character (name of rodent) and opens a browser tab to image search that rodent
 #Additional notes: user must first load("fun_data.RData") to play the game
 
@@ -59,10 +58,10 @@ play_rodent_game <- function(col_2, col_3, col_4){ #arguments are cols
     if (!toupper(photo) %in% c("YES", "Y", "YEAH")) { #if user prints something other than yes (in any format i.e. YES/yes/Yes/yeS)
       print("No worries! Game cancelled - reload to play again!") #print this message
       return(NULL)#end the game
-    } else {
-    Search_Inat <- get_inat_obs(taxon_name = matches, photo_license = "any", maxresults = 100)#search rinat
+    } else { #check internet
+    Search_Inat <- get_inat_obs(taxon_name = matches, photo_license = "any", maxresults = 100)#search rinat - check photo license
     ImageCheck <- Search_Inat[Search_Inat$image_url != "", ]
-    img_url <- ImageCheck$image_url[2]#get an image url by index - add in option to ask if want more than one image, if so, ask multiple from inat
+    img_url <- ImageCheck$image_url[2]#get an image url by index - add in option to ask if want more than one image if more than three images, if so, ask multiple from inat
     picture_raw <- readJPEG(getURLContent(img_url), native = TRUE)#read in in the jpeg
     res = dim(picture_raw)[2:1]#get the resolution [x,y]
     plot(1,1,xlim=c(1,res[1]),ylim=c(1,res[2]),
@@ -72,14 +71,15 @@ play_rodent_game <- function(col_2, col_3, col_4){ #arguments are cols
   }
 }
 
-#### demo code ####
 
+#### demo code ####
 #THE RAT GAME#
-#food : one character value from: "seeds" ; "roots" ; "grass" ; "others'_children"
-#habitat: one character value from: "woodland" ; "desert" ; "water"
-#size: one character value from: "small" ; "medium" ; "large"
-#aggression: one character value from: "yes" ; "no"
-#step 3: use the function - Play the rodent game!
+#step 1: choose arguments for the following funcitons
+  #col_2 - size: choose one character value from: "small"; "medium"; "large"
+  #col_3 - habitat: choose one character value from: "woodland"; "desert"; "water"
+  #col_4 - food : one character value from: "seeds" ; "roots" ; "grass"
+
+#step 2: use the function - Play the rodent game!
 
 play_rodent_game(col_2 = "small",	col_3 = "woodland",
                  col_4 ="roots") #use function with user input for arguments

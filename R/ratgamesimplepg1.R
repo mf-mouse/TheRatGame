@@ -149,4 +149,14 @@ pgbutton_UI <- function(id) {
                  label="Continue", class = "pg-button"))
 }
 
+pgbutton_server <- function(id) {
+  moduleServer(id, function(input, output, session) {
+    observeEvent(input$pgbutton, {
+      updateTabItems(session, "page1","page2")
+    })
+  })
+}
+
+server <- function(input, output, session) {}
+
 shinyApp(pg1, server)
